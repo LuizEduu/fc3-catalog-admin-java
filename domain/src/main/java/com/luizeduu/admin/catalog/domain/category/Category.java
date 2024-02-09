@@ -1,9 +1,9 @@
 package com.luizeduu.admin.catalog.domain.category;
 
 import com.luizeduu.admin.catalog.domain.AggregateRoot;
+import com.luizeduu.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public class Category extends AggregateRoot<CategoryId> {
 	private String name;
@@ -63,4 +63,8 @@ public class Category extends AggregateRoot<CategoryId> {
 		return deletedAt;
 	}
 
+	@Override
+	public void validate(ValidationHandler handler) {
+		new CategoryValidator(this, handler).validate();
+	}
 }
