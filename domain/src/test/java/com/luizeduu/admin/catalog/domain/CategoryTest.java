@@ -13,11 +13,11 @@ public class CategoryTest {
 	@Test
 	@DisplayName("shoud be able to return a instance of category")
 	public void givenAValidParams_whenCallNewCategory_thenInstantiateACategory() {
-			final var expectedName = "filmes";
-			final var expectedDescription = "A categoria mais assistida";
-			final var expectedIsActive = true;
+		final var expectedName = "filmes";
+		final var expectedDescription = "A categoria mais assistida";
+		final var expectedIsActive = true;
 
-			var createdCategory = Category.newCategory(expectedName, expectedDescription, expectedIsActive);
+		var createdCategory = Category.newCategory(expectedName, expectedDescription, expectedIsActive);
 
 		Assertions.assertNotNull(createdCategory);
 		Assertions.assertNotNull(createdCategory.getId());
@@ -196,6 +196,93 @@ public class CategoryTest {
 		Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAt));
 		Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
 		Assertions.assertNull(actualCategory.getDeletedAt());
+	}
+
+	@Test
+	public void givenAValidCategory_whenCallUpdate_thenReturnCategoryUpdated() {
+		final var expectedName = "Filmes";
+		final var expectedDescription = "A categoria mais assistida";
+		final var expectedIsActive = true;
+
+		final var aCategory =
+			Category.newCategory("Film", "A categoria", false);
+
+		final var createdAt = aCategory.getCreatedAt();
+		final var updatedAt = aCategory.getUpdatedAt();
+
+		Assertions.assertDoesNotThrow(() -> aCategory.validate(new ThrowsValidationHandler()));
+
+		Assertions.assertNotNull(aCategory.getDeletedAt());
+		Assertions.assertFalse(aCategory.isActive());
+
+		final var actualCategory = aCategory.update(expectedName, expectedDescription, expectedIsActive);
+
+		Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));
+
+		Assertions.assertEquals(aCategory.getId(), actualCategory.getId());
+		Assertions.assertEquals(aCategory.getName(), actualCategory.getName());
+		Assertions.assertEquals(aCategory.getDescription(), actualCategory.getDescription());
+		Assertions.assertEquals(createdAt, actualCategory.getCreatedAt());
+		Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAt));
+		Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
+		Assertions.assertNull(actualCategory.getDeletedAt());
+	}
+
+	@Test
+	public void givenAValidCategory_whenCallUpdateToInactive_thenReturnCategoryUpdated() {
+		final var expectedName = "Filmes";
+		final var expectedDescription = "A categoria mais assistida";
+		final var expectedIsActive = false;
+
+		final var aCategory =
+			Category.newCategory("Film", "A categoria", true);
+
+		final var createdAt = aCategory.getCreatedAt();
+		final var updatedAt = aCategory.getUpdatedAt();
+
+		Assertions.assertDoesNotThrow(() -> aCategory.validate(new ThrowsValidationHandler()));
+
+		Assertions.assertNull(aCategory.getDeletedAt());
+		Assertions.assertTrue(aCategory.isActive());
+
+		final var actualCategory = aCategory.update(expectedName, expectedDescription, expectedIsActive);
+
+		Assertions.assertDoesNotThrow(() -> actualCategory.validate(new ThrowsValidationHandler()));
+
+		Assertions.assertEquals(aCategory.getId(), actualCategory.getId());
+		Assertions.assertEquals(aCategory.getName(), actualCategory.getName());
+		Assertions.assertEquals(aCategory.getDescription(), actualCategory.getDescription());
+		Assertions.assertEquals(createdAt, actualCategory.getCreatedAt());
+		Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAt));
+		Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
+		Assertions.assertNotNull(actualCategory.getDeletedAt());
+		Assertions.assertFalse(actualCategory.isActive());
+	}
+
+	@Test
+	public void givenAValidCategory_whenCallUpdateWithInvalidParams_thenReturnCategoryUpdated() {
+		final String expectedName = null;
+		final var expectedDescription = "A categoria mais assistida";
+		final var expectedIsActive = true;
+
+		final var aCategory =
+			Category.newCategory("Filmes", "A categoria mais assistida", true);
+
+		final var createdAt = aCategory.getCreatedAt();
+		final var updatedAt = aCategory.getUpdatedAt();
+
+		Assertions.assertDoesNotThrow(() -> aCategory.validate(new ThrowsValidationHandler()));
+
+		final var actualCategory = aCategory.update(expectedName, expectedDescription, expectedIsActive);
+
+		Assertions.assertEquals(aCategory.getId(), actualCategory.getId());
+		Assertions.assertEquals(aCategory.getName(), actualCategory.getName());
+		Assertions.assertEquals(aCategory.getDescription(), actualCategory.getDescription());
+		Assertions.assertEquals(createdAt, actualCategory.getCreatedAt());
+		Assertions.assertTrue(actualCategory.getUpdatedAt().isAfter(updatedAt));
+		Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
+		Assertions.assertNull(actualCategory.getDeletedAt());
+		Assertions.assertTrue(actualCategory.isActive());
 	}
 
 }
