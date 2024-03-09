@@ -10,11 +10,15 @@ public interface ValidationHandler {
 
 	ValidationHandler validate(Validation aValidation);
 
+	List<Error> getErrors();
+
 	default  boolean hasError() {
 		return getErrors() != null && !getErrors().isEmpty();
 	}
 
-	List<Error> getErrors();
+	default Error firstError() {
+		return getErrors() != null && !getErrors().isEmpty() ? getErrors().get(0) : null;
+	}
 
 	interface Validation {
 		void validate();

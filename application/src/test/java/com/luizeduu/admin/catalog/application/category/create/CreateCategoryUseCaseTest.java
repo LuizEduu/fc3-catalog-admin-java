@@ -27,7 +27,6 @@ public class CreateCategoryUseCaseTest {
 	@Mock
 	private CategoryGateway categoryGateway;
 
-
 	@DisplayName("shoud be able to create a valid category")
 	@Test
 	public void givenAValidCommand_whenCallsCreateCategory_thenshoudReturnCategoryId() {
@@ -39,7 +38,7 @@ public class CreateCategoryUseCaseTest {
 
 		when(categoryGateway.create(any())).thenAnswer(returnsFirstArg());
 
-		final var actualOutput = useCase.execute(aCommand);
+		final var actualOutput = useCase.execute(aCommand).get();
 
 		Assertions.assertNotNull(actualOutput);
 		Assertions.assertNotNull(actualOutput.id());
@@ -86,7 +85,7 @@ public class CreateCategoryUseCaseTest {
 		when(categoryGateway.create(any()))
 			.thenAnswer(returnsFirstArg());
 
-		final var actualOutput = useCase.execute(aCommand);
+		final var actualOutput = useCase.execute(aCommand).get();
 
 		Assertions.assertNotNull(actualOutput);
 		Assertions.assertNotNull(actualOutput.id());
