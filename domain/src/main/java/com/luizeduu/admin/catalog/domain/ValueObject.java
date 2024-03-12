@@ -1,6 +1,3 @@
 package com.luizeduu.admin.catalog.domain;
 
-public abstract class ValueObject {
-
-
-}
+public abstract class ValueObject {}
