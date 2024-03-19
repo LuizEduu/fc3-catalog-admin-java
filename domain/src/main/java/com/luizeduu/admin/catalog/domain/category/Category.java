@@ -5,7 +5,7 @@ import com.luizeduu.admin.catalog.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 
-public class Category extends AggregateRoot<CategoryId> implements Cloneable{
+public class Category extends AggregateRoot<CategoryID> implements Cloneable{
 	private String name;
 	private String description;
 	private boolean active;
@@ -14,7 +14,7 @@ public class Category extends AggregateRoot<CategoryId> implements Cloneable{
 	private Instant deletedAt;
 
 	private Category(
-									final CategoryId anId,
+									final CategoryID anId,
 									final String aName,
 									final String aDescription,
 									final boolean isActive,
@@ -33,7 +33,7 @@ public class Category extends AggregateRoot<CategoryId> implements Cloneable{
 	public static Category newCategory(
 		final String aName, final String aDescription, final boolean isActive
 	){
-		final var id = CategoryId.unique();
+		final var id = CategoryID.unique();
 		final var now = Instant.now();
 		final var deletedAt = isActive ? null : now;
 

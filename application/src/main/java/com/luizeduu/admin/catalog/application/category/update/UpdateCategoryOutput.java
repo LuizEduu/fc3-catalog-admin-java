@@ -1,10 +1,10 @@
 package com.luizeduu.admin.catalog.application.category.update;
 
 import com.luizeduu.admin.catalog.domain.category.Category;
-import com.luizeduu.admin.catalog.domain.category.CategoryId;
+import com.luizeduu.admin.catalog.domain.category.CategoryID;
 
 public record UpdateCategoryOutput(
-	CategoryId id
+	CategoryID id
 ) {
 
 	public static UpdateCategoryOutput from(final Category aCategory) {

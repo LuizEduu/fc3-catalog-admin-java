@@ -1,10 +1,10 @@
 package com.luizeduu.admin.catalog.application.category.create;
 
 import com.luizeduu.admin.catalog.domain.category.Category;
-import com.luizeduu.admin.catalog.domain.category.CategoryId;
+import com.luizeduu.admin.catalog.domain.category.CategoryID;
 
 public record CreateCategoryOutput(
-	CategoryId id
+	CategoryID id
 ) {
 	public static CreateCategoryOutput from(final Category aCategory) {
 			return new CreateCategoryOutput(aCategory.getId());
