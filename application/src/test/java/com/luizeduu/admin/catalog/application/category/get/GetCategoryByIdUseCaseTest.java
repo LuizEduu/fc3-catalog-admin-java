@@ -1,4 +1,4 @@
-package com.luizeduu.admin.catalog.application.category.retrieve;
+package com.luizeduu.admin.catalog.application.category.get;
 
 import com.luizeduu.admin.catalog.application.category.retrieve.get.DefaultGetCategoryByIdUseCase;
 import com.luizeduu.admin.catalog.domain.category.Category;
