@@ -9,6 +9,7 @@ import com.luizeduu.admin.catalog.domain.validation.handler.Notification;
 import io.vavr.control.Either;
 
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import static io.vavr.API.Left;
 import static io.vavr.API.Try;
@@ -29,7 +30,7 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase{
 		boolean isActive = aCommand.isActive();
 
 		Category aCategory = this.categoryGateway.findById(anId)
-			.orElseThrow(() -> notFound(anId));
+			.orElseThrow(notFound(anId));
 
 		final var notification = Notification.create();
 
@@ -40,13 +41,13 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase{
 
 	}
 
-	private Either<Notification, UpdateCategoryOutput> update(Category aCategory) {
+	private Either<Notification, UpdateCategoryOutput> update(final Category aCategory) {
 		return Try(() -> this.categoryGateway.update(aCategory))
 			.toEither()
 			.bimap(Notification::create, UpdateCategoryOutput::from);
 	}
 
-	private static DomainException notFound(final CategoryID anId) {
-		return DomainException.with(new Error("Category with ID %s was not found".formatted(anId.getValue())));
+	private Supplier<DomainException> notFound(final CategoryID anId){
+		return () -> DomainException.with(new Error("Category with ID %s was not found.".formatted(anId.getValue())));
 	}
 }
